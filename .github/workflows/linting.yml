@@ -8,11 +8,10 @@ jobs:
     steps:
       - name: clone repo
         uses: actions/checkout@v7
-      - name: setup pyth
+      - name: setup python
         uses: actions/setup-python@v7
       - name: install dependancies
         run: pip install -r requirements.txt
       - name: install ruff
         uses: astral-sh/ruff-action@v4.1.0
-        run: ruff check --fix
-        run: ruff format
+
