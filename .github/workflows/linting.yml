@@ -3,14 +3,14 @@ name: Linting
 
 on: [push]
 jobs:
-  lint:
+lint:
   runs-on: ubuntu-latest
   steps:
-  - name: clone repo
-    uses: actions/checkout@v2
-  - name: setup node
-    uses: actions/setup-node@v2
-  - name: install dependancies
-    run: npm install
-  - name: linting
-    run: npm run lint
+    - name: clone repo
+      uses: actions/checkout@v2
+    - name: setup node
+      uses: actions/setup-node@v2
+    - name: install dependancies
+      run: npm install
+    - name: linting
+      run: npm run lint
