@@ -7,10 +7,14 @@ lint:
   runs-on: ubuntu-latest
   steps:
     - name: clone repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v7
     - name: setup node
-      uses: actions/setup-node@v2
+      uses: actions/setup-python@v7
     - name: install dependancies
-      run: npm install
+      run: pip install -r requirements.txt
+    - name: install ruff
+      uses: astral-sh/ruff-action@v4.1.0
+      run: ruff check --fix
+      run: ruff format
     - name: linting
       run: npm run lint
