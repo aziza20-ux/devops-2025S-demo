@@ -14,13 +14,8 @@ provider "docker" {}
 
 # A small Ubuntu image with SSH enabled.
 # Docker and PostgreSQL will be installed manually during the assignment.
-resource "docker_image" "local_server" {
+data "docker_image" "local_server" {
   name = "campus-notifier-local-server:latest"
-
-  build {
-    context    = path.module
-    dockerfile = "Dockerfile"
-  }
 }
 
 # Network connecting the application and database servers.
@@ -32,7 +27,7 @@ resource "docker_network" "campus_network" {
 # Application server
 resource "docker_container" "app_server" {
   name  = "campus-notifier-app-server"
-  image = docker_image.local_server.image_id
+  image = data.docker_image.local_server.id
 
   # Copy the SSH public key into the correct location,
   # set secure permissions, and start the SSH daemon.
@@ -81,7 +76,7 @@ resource "docker_container" "app_server" {
 # Database server
 resource "docker_container" "db_server" {
   name  = "campus-notifier-db-server"
-  image = docker_image.local_server.image_id
+  image = data.docker_image.local_server.id
 
   # Apply the same SSH key installation procedure.
   command = [
