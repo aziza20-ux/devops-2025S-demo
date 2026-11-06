@@ -31,7 +31,6 @@ View outputs:
 
     terraform output
 
-Copy db_private_ip into inventory.ini.
 On WSL when this repository is under `/mnt`, Ansible may ignore `ansible.cfg`
 because Windows-mounted files are world-writable. Run Ansible commands with
 `-i inventory.ini` from the `ansible` directory.
@@ -89,7 +88,7 @@ Enter the same PostgreSQL password when prompted.
 
 ## 7. Verify application
 
-    curl http://127.0.0.1:8080/health/
+    curl http://127.0.0.1:8080/health
 
 Expected:
 
