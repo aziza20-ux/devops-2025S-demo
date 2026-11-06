@@ -27,6 +27,7 @@ distribution. From this `terraform/local` directory run:
 
 ```bash
 export DOCKER_HOST="$(docker context inspect --format '{{.Endpoints.docker.Host}}')"
+docker build -t campus-notifier-local-server:latest .
 terraform init
 terraform validate
 terraform apply

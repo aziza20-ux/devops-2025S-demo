@@ -154,7 +154,7 @@
         name: campus-notifier
         image: "{{ app_image }}"
         state: started
-        pull: true
+        pull: false
         restart_policy: unless-stopped
         docker_host: "unix:///var/run/docker.sock"
 
