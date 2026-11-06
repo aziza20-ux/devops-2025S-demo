@@ -10,8 +10,21 @@ Configure Docker:
 
     export DOCKER_HOST="$(docker context inspect --format '{{.Endpoints.docker.Host}}')"
 
+Build the local server image:
+
+    docker build -t campus-notifier-local-server:latest -f Dockerfile .
+
+Build the application image from the repository root so it is available to
+the Docker Desktop engine used by the app server:
+
+    cd ../..
+    docker build -t campus-notifier-app:local -f Dockerfile .
+    cd terraform/local
+
 Apply infrastructure:
 
+    terraform init
+    terraform validate
     terraform apply
 
 View outputs:
@@ -19,6 +32,9 @@ View outputs:
     terraform output
 
 Copy db_private_ip into inventory.ini.
+On WSL when this repository is under `/mnt`, Ansible may ignore `ansible.cfg`
+because Windows-mounted files are world-writable. Run Ansible commands with
+`-i inventory.ini` from the `ansible` directory.
 
 ## 2. Verify servers are blank
 
@@ -57,17 +73,17 @@ Navigate to ansible directory:
 
 Install Python on both servers using raw:
 
-    ansible all -m raw -a "apt-get update && apt-get install -y python3"
+    ansible -i inventory.ini all -m raw -a "apt-get update && apt-get install -y python3"
 
 Test:
 
-    ansible all -m ping
+    ansible -i inventory.ini all -m ping
 
 Expected result: pong.
 
 ## 6. Run playbook
 
-    ansible-playbook site.yml
+    ansible-playbook -i inventory.ini site.yml
 
 Enter the same PostgreSQL password when prompted.
 
