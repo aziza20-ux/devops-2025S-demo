@@ -42,14 +42,14 @@ terraform apply
 
 Type `yes` when Terraform asks to create the resources. The apply creates an app server, a database server, and their private Docker network. The app server has SSH on port `2222`; the database server has SSH on port `2223`.
 
-Get the servers' current private IP addresses:
+Inspect the servers' private IP addresses if needed:
 
 ```bash
 terraform output -raw db_private_ip
 terraform output -raw instance_private_ip
 ```
 
-Edit `ansible/inventory.ini`: set `db_private_ip` to the first value and `app_private_ip` to the second. Docker can assign new addresses if the lab is recreated, so refresh these values after each new Terraform apply.
+The inventory connects to the lab servers through their forwarded SSH ports on `127.0.0.1`. The app reaches PostgreSQL by the database container's Docker network name, so you do not need to copy changing private IPs into Ansible inventory.
 
 ## Build and deploy the application
 
@@ -80,7 +80,7 @@ Choose a PostgreSQL password at the first prompt and enter the same password at 
 Check the app's health endpoint:
 
 ```bash
-curl http://127.0.0.1:8080/health/
+curl http://127.0.0.1:8080/health
 ```
 
 Expected response:
