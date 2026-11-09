@@ -7,7 +7,7 @@ from .models import Event, EventCategory, EventRegistration
 
 
 def health(request):
-    """Return a lightweight status response for deployment checks."""
+    """Liveness check for deploys and monitoring"""
     return JsonResponse({"status": "ok"})
 
 
