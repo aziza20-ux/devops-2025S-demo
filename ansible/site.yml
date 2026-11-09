@@ -16,6 +16,11 @@
 
   tasks:
 
+    - name: Confirm database host is Ubuntu
+      ansible.builtin.assert:
+        that:
+          - ansible_facts['distribution'] == "Ubuntu"
+
     # Update Ubuntu package lists
     - name: Update apt package cache
       ansible.builtin.apt:
@@ -120,6 +125,11 @@
 
   tasks:
 
+    - name: Confirm application host is Ubuntu
+      ansible.builtin.assert:
+        that:
+          - ansible_facts['distribution'] == "Ubuntu"
+
     # Update Ubuntu package lists
     - name: Update apt package cache
       ansible.builtin.apt:
@@ -169,13 +179,13 @@
           POSTGRES_DB: campus
           POSTGRES_USER: campus
           POSTGRES_PASSWORD: "{{ postgres_password }}"
-          POSTGRES_HOST: "{{ db_private_ip }}"
+          POSTGRES_HOST: "campus-notifier-db-server"
           POSTGRES_PORT: "5432"
 
     # Test application
     - name: Wait for application health endpoint
       ansible.builtin.uri:
-        url: "http://127.0.0.1:{{ app_port }}/health/"
+        url: "http://127.0.0.1:{{ app_port }}/health"
         status_code: 200
         return_content: true
       register: health_result
